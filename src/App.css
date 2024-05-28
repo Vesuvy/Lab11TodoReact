@@ -36,3 +36,51 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.text {
+  flex: 1;
+  padding: 10px;
+}
+
+.todo_add, .todo_delete {
+  padding: 10px 20px;
+}
+
+.todo_tasks-count, .todo-options {
+  margin: 10px 0;
+}
+
+.todo_task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.todo_task_complete .todo_task-text {
+  text-decoration: line-through;
+}
+
+.todo_checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.todo_task-delete {
+  cursor: pointer;
+  color: red;
+}
