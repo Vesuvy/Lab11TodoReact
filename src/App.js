@@ -3,6 +3,7 @@ import './App.css';
 
 const App = () => {
     const [tasks, setTasks] = useState([]);
+    const [filteredTasks, setFilteredTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
 
     const addTask = () => {
@@ -12,7 +13,9 @@ const App = () => {
                 text: newTask,
                 isComplete: false
             };
-            setTasks([...tasks, task]);
+            const newTasks = [...tasks, task];
+            setTasks(newTasks);
+            setFilteredTasks(newTasks);
             setNewTask('');
         } else {
             alert('Задача существует или пустое значение');
@@ -20,29 +23,34 @@ const App = () => {
     };
 
     const deleteTask = (id) => {
-        setTasks(tasks.filter(task => task.id !== id));
+        const newTasks = tasks.filter(task => task.id !== id);
+        setTasks(newTasks);
+        setFilteredTasks(newTasks);
     };
 
     const toggleTaskCompletion = (id) => {
-        setTasks(tasks.map(task => 
+        const newTasks = tasks.map(task => 
             task.id === id ? { ...task, isComplete: !task.isComplete } : task
-        ));
+        );
+        setTasks(newTasks);
+        setFilteredTasks(newTasks);
     };
 
     const sortTasksByName = () => {
-        setTasks([...tasks].sort((a, b) => a.text.localeCompare(b.text)));
+        const sortedTasks = [...filteredTasks].sort((a, b) => a.text.localeCompare(b.text));
+        setFilteredTasks(sortedTasks);
     };
 
     const showCompletedTasks = () => {
-        setTasks(tasks.filter(task => task.isComplete));
+        setFilteredTasks(tasks.filter(task => task.isComplete));
     };
 
     const showIncompleteTasks = () => {
-        setTasks(tasks.filter(task => !task.isComplete));
+        setFilteredTasks(tasks.filter(task => !task.isComplete));
     };
 
     const showAllTasks = () => {
-        setTasks([...tasks]);
+        setFilteredTasks(tasks);
     };
 
     return (
@@ -57,7 +65,10 @@ const App = () => {
                     onChange={(e) => setNewTask(e.target.value)}
                 />
                 <button className="todo_add" onClick={addTask}>+</button>
-                <button className="todo_delete" onClick={() => setTasks([])}>-</button>
+                <button className="todo_delete" onClick={() => {
+                    setTasks([]);
+                    setFilteredTasks([]);
+                }}>-</button>
             </div>
             <div className="todo_tasks-count">
                 <span>Всего задач:</span>
@@ -70,7 +81,7 @@ const App = () => {
                 <button onClick={showAllTasks}>Показать все</button>
             </div>
             <div className="todo_list">
-                {tasks.map(task => (
+                {filteredTasks.map(task => (
                     <div key={task.id} className={`todo_task ${task.isComplete ? 'todo_task_complete' : ''}`}>
                         <label className="todo_checkbox">
                             <input
